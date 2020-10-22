@@ -1,0 +1,7 @@
+{
+    "vcenter_server" : "vcenter.ryan.local",
+    "esxi_server" : "super15.cyber.local",
+    "base_folder" : "BASE-VMS",
+    "preferred_network" : "480-WAN",
+    "preferred_datastore" : "datastore1-super15"
+}
