@@ -1,0 +1,29 @@
+#Playbook adds delpoyer public key
+- name: push key
+  hosts: ubuntu_server
+  tasks:
+    - name: create .ssh directory if it is not there
+      file:
+        path: /home/deployer/.ssh
+        state: directory
+        mode: 0700
+    - name: create authorized_keys file
+      file:
+        path: /home/deployer/.ssh/authorized_keys
+        state: touch
+        mode: 0644
+    - name: copy key block and append to authorized_keys
+      blockinfile:
+        dest: /home/deployer/.ssh/authorized_keys
+        block: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCffIKT2yBsYN975Gfa+YzmHxVJXSmmoWu7G24UGmstzd0nqbbibxtEyBAcUUsTPLjyEFfHAfdAg/k3SM867cFSHeLY6Ble8h0UvmIyiKpHBjDvOY1tCoE8YXnBmKLAeOmzHkmaPYTpX1fug4i4tT5bVIYNXwqcPgn1RdViRr2JVaPPL396RN1gSOe6UpF/pkyXu+MxDM+4KsmBemIWCpGHwdposHZFdzGhm4yYVt3Zxydtjj9bLJOvx5HBCBPcfEgLgXW1drXw3iUIQ7a5W74lEsc0lFuDOUGlEwCpNTCCDuec/+UQxFZnTJ7AbSbwSG7ulx0Nu2uh0oHNmLopOD1AbolLVKl0DsE8l2QsSDxQNUrxSEcscmxGRjEdx5nXikTcvsCTvKdfd+oqGcKNg9dOpdl8RDGjVQBAAkETVLtHA9ohS/66KhPLhG6FYn1ao452ykbw5hNPKR4hP4zRcX35QlmHzFKf5/yWRD9/bPAU+jKmfwcdzHE5SNWO5hkwgSs= ryan@xubuntu-wan
+    - name: create sudoers dropin file for 480
+      file:
+        path: /etc/sudoers.d/480
+        state: touch
+        mode: 0440
+      become: yes
+    - name: create deployer entry in /etc/sudoers.d/480
+      blockinfile:
+        path: /etc/sudoers.d/480
+        block: "deployer  ALL=(ALL) NOPASSWD: ALL"
+      become: yes
