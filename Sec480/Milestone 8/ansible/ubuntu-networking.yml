@@ -1,0 +1,38 @@
+#Connfigures blueteaam ubuntu networking
+- name: ubuntu_networking
+  hosts: ubuntu_server
+  tasks:
+    - name: ubuntu_server
+      hostname:
+        name: "{{hostname}}"
+      become: yes
+    
+    - name: add host to hosts file
+      lineinfile:
+        path: /etc/hosts
+        line: '127.0.1.1   {{hostname}}'
+      become: yes 
+
+    - name: add host to cloud file 2
+      blockinfile:
+        path: /etc/cloud/cloud.cfg
+        block: | 
+          preserve_hostname: false
+          hostname: {{hostname}}
+      become: yes
+
+    - name: push over the networking scripts
+      template:
+        src: files/ubuntu/ifcfg-script.j2
+        dest: '/etc/netplan/00-installer-config.yaml'
+        mode: 0644
+        owner: root
+        group: root
+        force: yes
+      become: yes
+    
+    - name: restart networking
+      shell: "netplan apply && reboot"
+      become: yes
+      async: 1
+      poll: 0

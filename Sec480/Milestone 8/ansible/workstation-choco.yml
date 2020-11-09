@@ -1,0 +1,48 @@
+#Join a Domain
+- name: windows-domain
+  hosts: windows_workstation
+  gather_facts: no
+  tasks:
+    - name: manage 7zip
+      win_chocolatey:
+        name: 7zip
+        state: present
+    
+    - name: manage Chrome
+      win_chocolatey:
+        name: googlechrome
+        state: present
+
+    - name: manage VI
+      win_chocolatey:
+        name: vscode
+        state: present
+    
+    - name: manage PuTTY
+      win_chocolatey:
+        name: putty
+        state: present
+
+    - name: manage Python3
+      win_chocolatey:
+        name: python3
+        state: present
+        
+    - name: manage GIT
+      win_chocolatey:
+        name: git
+        state: present
+    
+    - name: manage notepad++
+      win_chocolatey:
+        name: notepadplusplus
+        state: present
+
+
+
+
+      
+
+
+
+        
